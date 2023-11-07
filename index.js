@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+require('dotenv').config()
 
 app.get('/', (req, res) => {
     res.json({
@@ -7,4 +8,4 @@ app.get('/', (req, res) => {
     })
 })
 
-app.listen(3000, () => console.log('Servidor corriendo en el puerto: ', 3000))
+app.listen(process.env.PORT, () => console.log('Servidor corriendo en el puerto: ', process.env.PORT))
