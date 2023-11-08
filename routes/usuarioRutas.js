@@ -1,5 +1,6 @@
 const express = require('express')
 const usuarioRutas = express.Router()
+const { Usuario } = require('../models/usuarioModel')
 
 usuarioRutas.get('/', (req, res) => {
     res.json({
@@ -8,6 +9,10 @@ usuarioRutas.get('/', (req, res) => {
 })
 
 usuarioRutas.post('/', (req, res) => {
+    let nombre = req.body.usuario
+    let usuario = new Usuario({
+        usuario_nombre: nombre
+    })
     res.json({
         message: 'Hola Usuarios POST'
     })
