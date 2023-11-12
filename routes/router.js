@@ -5,11 +5,10 @@ const modulosRutas = require('./modulosRutas')
 const permisosRutas = require('./permisosRutas')
 const recursosRutas = require('./recursosRutas')
 const rolesRutas = require('./rolesRutas')
+const auth = require('../middlewares/auth')
 
 router.use('/usuarios', usuarioRutas)
-router.use('/modulos', modulosRutas)
-router.use('/permisos', permisosRutas)
-router.use('/recursos', recursosRutas)
-router.use('/roles', rolesRutas)
+router.use('/recursos', auth, recursosRutas)
+router.use('/roles', auth, rolesRutas)
 
 module.exports = router

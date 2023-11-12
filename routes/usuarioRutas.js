@@ -68,14 +68,14 @@ usuarioRutas.put('/:id', (req, res) => {
                         usuario: usuario
                     })
                 } else {
-                    res.send(400).json({
+                    res.status(400).json({
                         mensaje: 'No se pudo modificar la informacióin del usuario'
                     })
                 }
             }
         ) 
     } else {
-        res.send(404).json({
+        res.status(404).json({
             mensaje: 'No se encontró ningún usuario'
         })
     }
