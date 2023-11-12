@@ -3,15 +3,25 @@ const usuarioRutas = express.Router()
 const Usuario = require('../models/usuarioModel')
 
 usuarioRutas.get('/', (req, res) => {
-    res.json({
-        message: 'Hola Usuarios GET'
-    })
+    Usuario.find().then(
+        (usuarios) => {
+            res.status(200).json(usuarios);
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: error
+            });
+        }
+    );
 })
 
 usuarioRutas.post('/', (req, res) => {
     let nombre = req.body.usuario
+    let pass = req.body.pass
     let usuario = new Usuario({
-        usuario_nombre: nombre
+        usuario_nombre: nombre,
+        password: pass,
     })
     usuario.save()
         .then(() => res.json({
@@ -22,15 +32,44 @@ usuarioRutas.post('/', (req, res) => {
 })
 
 usuarioRutas.delete('/:id', (req, res) => {
-    res.json({
-        message: 'Hola Usuarios DELETE, id: ' + req.params.id
-    })
+    Usuario.deleteOne({_id: req.params.id}).then(
+        () => {
+          res.status(200).json({
+            message: 'Usuario Borrado'
+          });
+        }
+      ).catch(
+        (error) => {
+          res.status(400).json({
+            error: error
+          });
+        }
+      );
 })
 
 usuarioRutas.put('/:id', (req, res) => {
-    res.json({
-        message: 'Hola Usuarios PUT, id: ' + req.params.id
-    })
+    let usuario = Usuario.findOne({_id: req.params.id})
+    if(usuario) {
+        Usuario.updateOne({_id: req.params.id}, {usuario_nombre: req.body.username}).then(
+            usuario => {
+                if(usuario) {
+                    res.json({
+                        mensaje: 'Usuario Modificado con Éxito',
+                        usuario: usuario
+                    })
+                } else {
+                    res.send(400).json({
+                        mensaje: 'No se pudo modificar la informacióin del usuario'
+                    })
+                }
+            }
+        )
+        
+    } else {
+        res.send(404).json({
+            mensaje: 'No se encontró ningún usuario'
+        })
+    }
 })
 
 

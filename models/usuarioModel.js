@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 
 const usuarioSchema = mongoose.Schema({
-  usuario_nombre: {type: String, required: false},
+  usuario_nombre: {type: String, required: true},
+  password: {type: String, required: true},
   fechaCreacion: {type: Date, required: false},
   fechaModificacion: {type: Date, required: false},
   fechaEliminado: {type: Date, required: false},
