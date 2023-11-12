@@ -1,6 +1,7 @@
 const express = require('express')
 const usuarioRutas = express.Router()
 const Usuario = require('../models/usuarioModel')
+const bcrypt = require('bcrypt')
 
 usuarioRutas.get('/', (req, res) => {
     Usuario.find().then(
@@ -17,18 +18,27 @@ usuarioRutas.get('/', (req, res) => {
 })
 
 usuarioRutas.post('/', (req, res) => {
-    let nombre = req.body.usuario
-    let pass = req.body.pass
-    let usuario = new Usuario({
-        usuario_nombre: nombre,
-        password: pass,
-    })
-    usuario.save()
-        .then(() => res.json({
-        message: 'Hola Usuarios POST',
-        usuario: usuario
-    }))
-        .catch(e => console.log(e))
+    bcrypt.hash(req.body.pass, 10).then(
+        (hash) => {
+            const user = new Usuario({
+            usuario_nombre: req.body.usuario,
+            password: hash
+            });
+            user.save().then(
+            () => {
+                res.status(201).json({
+                message: 'Usuario Creado'
+                });
+            }
+            ).catch(
+            (error) => {
+                res.status(500).json({
+                error: error
+                });
+            }
+            );
+        }
+        );
 })
 
 usuarioRutas.delete('/:id', (req, res) => {
@@ -63,8 +73,7 @@ usuarioRutas.put('/:id', (req, res) => {
                     })
                 }
             }
-        )
-        
+        ) 
     } else {
         res.send(404).json({
             mensaje: 'No se encontró ningún usuario'
