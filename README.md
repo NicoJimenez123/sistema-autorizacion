@@ -29,7 +29,8 @@ Aunque por falta de tiempo no pude desarrollar el projecto como me hubiese gusta
 ### Antes de iniciar el servidor
 Debe crearse un archivo .env en el directorio raíz del proyecto, utilizando la siguiente estructura:
 - PORT=3000
-- MONGO_CONNECTION_STRING=''  
+- MONGO_CONNECTION_STRING=''
+  
 
 El MONGO_CONNECTION_STRING es la conexión a una BD de mongo, yo utilicé mongodb.com
 ### Levantar el servidor con NPM
